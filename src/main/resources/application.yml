@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: recitar-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: mysecretpassword
+    driver-class-name: org.postgresql.Driver
+    hibernate:
+      ddl-auto: update
+
+  reports:
+    model-path: C:\Users\victo\personal\git\recitar-api\src\main\resources\report\
+    model-filename: REC_MODEL_REPORT.docx
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:my_secret}
