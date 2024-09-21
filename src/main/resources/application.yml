@@ -13,7 +13,19 @@ spring:
   reports:
     model-path: C:\Users\victo\personal\git\recitar-api\src\main\resources\report\
     model-filename: REC_MODEL_REPORT.docx
+
+  output:
+    ansi:
+      enabled: always
 api:
   security:
     token:
       secret: ${JWT_SECRET:my_secret}
+
+# Loga debug
+debug: true
+
+# Setar essa variavel quando quiser que o log seja salvo em arquivo texto
+#logging:
+#  file:
+#    path: C:\Users\victo\personal\git\recitar-api\src\main\resources\logs

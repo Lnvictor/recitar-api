@@ -19,7 +19,7 @@ public class ReportTasks {
      *
      * Pesquisar depois como agendar uma vez no mes so
      */
-    @Scheduled(fixedRate = 10000)
+//    @Scheduled(fixedRate = 10000)
     public void report() {
         log.info("===================Reporting tasks===============");
         LocalDate now = LocalDate.now();

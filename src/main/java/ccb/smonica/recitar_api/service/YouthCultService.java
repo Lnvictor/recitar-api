@@ -10,14 +10,16 @@ import ccb.smonica.recitar_api.repository.RecitativosCountRepository;
 import ccb.smonica.recitar_api.repository.YouthCultRepository;
 import ccb.smonica.recitar_api.util.DateUtil;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class YouthCultService {
     private YouthCultRepository repository;
     private RecitativosCountRepository recitativosCountRepository;
@@ -58,6 +60,8 @@ public class YouthCultService {
         YouthCult cult = this.repository.findByYearAndMonthAndDay(year, month, day);
 
         if (cult == null) {
+            log.debug("Cult doesnt exists, creating it.");
+
             cult = YouthCult.builder()
                     .day(day)
                     .month(month)
@@ -132,7 +136,13 @@ public class YouthCultService {
                 .build();
     }
 
-    public void deleteRecitativoCount(PostAddRecCountDTO dto) {
-        throw new NotImplementedException();
+    public void deleteRecitativoCount(Long id) {
+        try {
+            RecitativosCount entity = this.recitativosCountRepository.findById(id).get();
+            this.recitativosCountRepository.delete(entity);
+        } catch (NoSuchElementException e) {
+            log.debug("NoSuchElement Exception was raised");
+            throw new CultsNotFoundException("Count does not exist");
+        }
     }
 }

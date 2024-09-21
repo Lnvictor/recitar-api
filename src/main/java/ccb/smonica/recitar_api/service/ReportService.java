@@ -6,6 +6,7 @@ import ccb.smonica.recitar_api.exception.ReportFileNotFoundException;
 import com.spire.doc.Document;
 import com.spire.doc.ToPdfParameterList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ReportService {
     @Value("${spring.reports.model-path}")
     private String reportModelPath;
@@ -108,6 +110,7 @@ public class ReportService {
             InputStreamResource r = new InputStreamResource(new FileInputStream(pdf));
             return r;
         } catch (IOException | JAXBException | Docx4JException e) {
+            log.error("Something went wrong during processing new report");
             throw new RuntimeException(e);
         }
     }

@@ -1,15 +1,12 @@
 package ccb.smonica.recitar_api.filters;
 
-import ccb.smonica.recitar_api.entities.User;
 import ccb.smonica.recitar_api.repository.UserRepository;
 import ccb.smonica.recitar_api.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.cdi.Eager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         String token = "";
 
-        if (authorization != null){
+        if (authorization != null) {
             token = authorization.replace("Bearer ", "");
             String userName = tokenService.validateJwtToken(token);
 

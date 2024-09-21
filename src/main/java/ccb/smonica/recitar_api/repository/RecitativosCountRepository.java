@@ -4,6 +4,6 @@ import ccb.smonica.recitar_api.entities.RecitativosCount;
 import ccb.smonica.recitar_api.entities.YouthCult;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RecitativosCountRepository extends CrudRepository<RecitativosCount, Integer> {
+public interface RecitativosCountRepository extends CrudRepository<RecitativosCount, Long> {
     RecitativosCount findByYouthCult(YouthCult youthCult);
 }
