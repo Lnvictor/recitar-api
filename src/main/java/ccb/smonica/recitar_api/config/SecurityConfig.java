@@ -36,6 +36,7 @@ public class SecurityConfig {
                                     .requestMatchers(HttpMethod.GET, "cults/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_AUXILIAR")
                                     .requestMatchers(HttpMethod.POST, "cults/add").hasAnyAuthority("ROLE_ADMIN")
                                     .requestMatchers(HttpMethod.PUT, "cults/update").hasAnyAuthority("ROLE_ADMIN")
+                                    .requestMatchers(HttpMethod.GET, "access").hasAuthority("ROLE_ADMIN")
                                     .anyRequest().authenticated();
                         }
                 )
