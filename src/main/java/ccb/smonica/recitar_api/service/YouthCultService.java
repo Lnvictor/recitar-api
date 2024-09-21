@@ -8,11 +8,14 @@ import ccb.smonica.recitar_api.entities.YouthCult;
 import ccb.smonica.recitar_api.exception.CultsNotFoundException;
 import ccb.smonica.recitar_api.repository.RecitativosCountRepository;
 import ccb.smonica.recitar_api.repository.YouthCultRepository;
+import ccb.smonica.recitar_api.util.CsvUtils;
 import ccb.smonica.recitar_api.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,7 +76,7 @@ public class YouthCultService {
         RecitativosCount entity = RecitativosCount.builder()
                 .boys(dto.boys())
                 .youngBoys(dto.youthBoys())
-                .girls(dto.youthGirls())
+                .girls(dto.girls())
                 .youngGirls(dto.youthGirls())
                 .individuals(dto.individuals())
                 .youthCult(cult)
@@ -143,6 +146,15 @@ public class YouthCultService {
         } catch (NoSuchElementException e) {
             log.debug("NoSuchElement Exception was raised");
             throw new CultsNotFoundException("Count does not exist");
+        }
+    }
+
+    public void registerCountsByCsv(MultipartFile file) {
+        try {
+            List<PostAddRecCountDTO> dtos =  CsvUtils.read(PostAddRecCountDTO.class, file.getInputStream());
+            dtos.forEach(this::addNewRecitativoCount);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

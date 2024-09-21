@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,5 +44,12 @@ public class YouthCultController {
         log.info("Request received in deleteCult with filters: id -> {}", id);
         this.service.deleteRecitativoCount(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/csv")
+    public ResponseEntity<YouthCultDTO> csv(@RequestParam("file") MultipartFile file) {
+        log.info("Request received in csv: {}", file.getName());
+        this.service.registerCountsByCsv(file);
+        return ResponseEntity.ok(null);
     }
 }
