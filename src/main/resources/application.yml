@@ -3,12 +3,13 @@ spring:
     name: recitar-api
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://db:5432/postgres
     username: postgres
     password: mysecretpassword
     driver-class-name: org.postgresql.Driver
     hibernate:
       ddl-auto: update
+
 
   reports:
     model-path: C:\Users\victo\personal\git\recitar-api\src\main\resources\report\
@@ -17,6 +18,7 @@ spring:
   output:
     ansi:
       enabled: always
+
 api:
   security:
     token:

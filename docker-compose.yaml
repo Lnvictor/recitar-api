@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: db
+    image: postgres:latest
+    volumes:
+      - e78c2682a7b578f6cdeab687c9e52bf78c2f8b900014c24ae4b0dfbd2232d005:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+
+  recitar_api:
+    container_name: recitar-api
+    depends_on:
+      - db
+    build: .
+    ports:
+      - 8080:8080
+    restart: always
+
+volumes:
+  e78c2682a7b578f6cdeab687c9e52bf78c2f8b900014c24ae4b0dfbd2232d005:
+    external: true
