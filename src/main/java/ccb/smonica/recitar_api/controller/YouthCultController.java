@@ -4,7 +4,9 @@ import ccb.smonica.recitar_api.dto.PostAddRecCountDTO;
 import ccb.smonica.recitar_api.dto.YouthCultDTO;
 import ccb.smonica.recitar_api.service.YouthCultService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,13 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "cults")
 @AllArgsConstructor
+@RequestMapping(value = "cults")
 @Log4j2
 public class YouthCultController {
     private YouthCultService service;
 
     @GetMapping
+    @Cacheable("cults")
     public ResponseEntity<List<YouthCultDTO>> listCults(@RequestParam String year, @RequestParam String month,
                                                         @RequestParam(required = false) String day) {
         log.info("Request received in listCults with filters: year={}, month={}, day={}", year, month, day);

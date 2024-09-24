@@ -8,6 +8,7 @@ import ccb.smonica.recitar_api.exception.RoleNotFoundException;
 import ccb.smonica.recitar_api.exception.UserNotFoundException;
 import ccb.smonica.recitar_api.repository.RolesRepository;
 import ccb.smonica.recitar_api.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserAccessService {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private RolesRepository rolesRepository;
 
     public List<UserAccessDTO> getUserAccessDTO(String username) {

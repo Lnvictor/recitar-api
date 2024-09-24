@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("login")
 @Log4j2
 public class LoginController {
-    @Autowired
     private UserRepository repository;
-    @Autowired
     private TokenService tokenService;
 
     @PostMapping

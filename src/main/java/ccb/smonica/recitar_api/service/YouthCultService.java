@@ -151,7 +151,7 @@ public class YouthCultService {
 
     public void registerCountsByCsv(MultipartFile file) {
         try {
-            List<PostAddRecCountDTO> dtos =  CsvUtils.read(PostAddRecCountDTO.class, file.getInputStream());
+            List<PostAddRecCountDTO> dtos = CsvUtils.read(PostAddRecCountDTO.class, file.getInputStream());
             dtos.forEach(this::addNewRecitativoCount);
         } catch (IOException e) {
             throw new RuntimeException(e);
