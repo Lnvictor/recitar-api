@@ -4,7 +4,6 @@ import ccb.smonica.recitar_api.dto.PostAddRecCountDTO;
 import ccb.smonica.recitar_api.dto.YouthCultDTO;
 import ccb.smonica.recitar_api.service.YouthCultService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;

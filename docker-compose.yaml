@@ -1,11 +1,21 @@
 version: '3.3'
 
 services:
+  rabbit:
+    container_name: rabbit-container
+    image: "rabbitmq:3-management"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+
   db:
     container_name: db
     image: postgres:latest
     volumes:
-      - e78c2682a7b578f6cdeab687c9e52bf78c2f8b900014c24ae4b0dfbd2232d005:/var/lib/postgresql/data
+      - vol_recitar:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     restart: always
     environment:
       POSTGRES_PASSWORD: mysecretpassword
@@ -14,11 +24,11 @@ services:
     container_name: recitar-api
     depends_on:
       - db
+      - rabbit
     build: .
     ports:
       - 8080:8080
     restart: always
 
 volumes:
-  e78c2682a7b578f6cdeab687c9e52bf78c2f8b900014c24ae4b0dfbd2232d005:
-    external: true
+  vol_recitar: { }

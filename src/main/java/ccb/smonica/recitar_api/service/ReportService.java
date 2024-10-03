@@ -1,6 +1,8 @@
 package ccb.smonica.recitar_api.service;
 
+import ccb.smonica.recitar_api.config.Constants;
 import ccb.smonica.recitar_api.dto.RecitativosDTO;
+import ccb.smonica.recitar_api.dto.ReportDTO;
 import ccb.smonica.recitar_api.dto.YouthCultDTO;
 import ccb.smonica.recitar_api.exception.ReportFileNotFoundException;
 import com.spire.doc.Document;
@@ -21,7 +23,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class ReportService {
 
     @Value("${spring.reports.model-filename}")
     private String reportModelFilename;
+
+    private final NotificationService notificationService;
 
     private final YouthCultService youthCultService;
 
@@ -108,6 +111,7 @@ public class ReportService {
             //Files.delete(Path.of(path));
             String pdf = doReplacementsOnDOCX(path, replacements);
             InputStreamResource r = new InputStreamResource(new FileInputStream(pdf));
+            notificationService.notificateEmailSender(new ReportDTO(Constants.EMAIL_LIST));
             return r;
         } catch (IOException | JAXBException | Docx4JException e) {
             log.error("Something went wrong during processing new report");
@@ -116,8 +120,10 @@ public class ReportService {
     }
 
     private String createModelCopy(String year, String month) throws IOException {
-        String copyFullPath = reportModelPath + String.format("%s-%s-report.docx", year, month);
-        Files.copy(Path.of(reportModelPath + reportModelFilename), Path.of(copyFullPath));
+        String absolutePath = Paths.get("").toAbsolutePath().toString() + this.reportModelPath;
+
+        String copyFullPath = absolutePath + String.format("%s-%s-report.docx", year, month);
+        Files.copy(Path.of(absolutePath + reportModelFilename), Path.of(copyFullPath));
 
         return copyFullPath;
     }
@@ -135,6 +141,7 @@ public class ReportService {
                 .getJAXBNodesViaXPath(textNodesXPath, true);
 
         for (Object obj : textNodes) {
+            @SuppressWarnings("rawtypes")
             Text text = (Text) ((JAXBElement) obj).getValue();
             String textValue = text.getValue();
 
