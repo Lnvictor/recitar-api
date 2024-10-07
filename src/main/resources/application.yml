@@ -28,6 +28,13 @@ api:
   security:
     token:
       secret: ${JWT_SECRET:my_secret}
+    
+    oauth:
+      microsoft:
+        token_url: ${RECITAR_TOKEN_URL}
+        redirect_uri: ${RECITAR_REDIRECT_URI}
+        client_id: ${RECITAR_CLIENT_ID}
+        client_secret: ${RECITAR_CLIENT_SECRET}
 
 # Loga debug
 debug: true

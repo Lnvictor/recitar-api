@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableCaching
 public class RecitarApiApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(RecitarApiApplication.class, args);
 	}

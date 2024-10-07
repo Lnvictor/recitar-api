@@ -1,5 +1,6 @@
 package ccb.smonica.recitar_api.controller;
 
+import ccb.smonica.recitar_api.dto.OIDCLoginBodyDTO;
 import ccb.smonica.recitar_api.dto.PostLoginRequestBodyDTO;
 import ccb.smonica.recitar_api.dto.PostLoginResponseDTO;
 import ccb.smonica.recitar_api.repository.UserRepository;
@@ -38,12 +39,17 @@ public class LoginController {
         try {
             String token = tokenService.generateJwtToken(username);
             log.debug("Username: {} | Token: {}", username, token);
-            return ResponseEntity.ok(new PostLoginResponseDTO(token));
+            return ResponseEntity.ok(new PostLoginResponseDTO(token, 10800));
         } catch (Exception e) {
             log.error("Something went wrong doing authentication process of user: {}", username);
             e.printStackTrace();
         }
 
         return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/microsoft")
+    public ResponseEntity<PostLoginResponseDTO> loginOIDCWithGoogle(@RequestBody OIDCLoginBodyDTO body){
+        return ResponseEntity.ok(tokenService.generateAuthCodeByOAuthCode(body.code()));
     }
 }

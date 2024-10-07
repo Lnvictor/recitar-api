@@ -20,8 +20,7 @@ public class RestControllerHandler {
                 .timestamp(LocalDateTime.now())
                 .status(400)
                 .developerMessage("Nothing to declare")
-                .build(), HttpStatus.BAD_REQUEST
-        );
+                .build(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ReportFileNotFoundException.class)
@@ -29,8 +28,7 @@ public class RestControllerHandler {
         return new ResponseEntity<>(ReportNotFoundDetails.builder()
                 .message("Report Not Found to generate PDF")
                 .fileName(ex.getFileName())
-                .build(), HttpStatus.INTERNAL_SERVER_ERROR
-        );
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -41,8 +39,7 @@ public class RestControllerHandler {
                 .username(null)
                 .timestamp(LocalDateTime.now())
                 .status(404)
-                .build(), HttpStatus.NOT_FOUND
-        );
+                .build(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RoleNotFoundException.class)
@@ -54,14 +51,27 @@ public class RestControllerHandler {
                         .roleName(null)
                         .timestamp(LocalDateTime.now())
                         .status(404)
-                        .build(), HttpStatus.NOT_FOUND
-        );
+                        .build(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body(
-                Map.of("message", ex.getMessage())
-        );
+                Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(OAuthFlowException.class)
+    public ResponseEntity<OAuthFlowExceptionDetails> handleOauthFlowException(OAuthFlowException ex) {
+        return new ResponseEntity<>(
+                OAuthFlowExceptionDetails.builder()
+                        .title("Error during authentication with provider")
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .authProvider("Microsoft")
+                        .details(ex.getMessage())
+                        .developerMessage("Please check if your auth code is incorrect or expired")
+                        .timestamp(LocalDateTime.now())
+                        .build(),
+                HttpStatus.UNAUTHORIZED);
     }
 }

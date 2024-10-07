@@ -32,6 +32,7 @@ public class SecurityConfig {
                         (requests) -> {
                             requests
                                     .requestMatchers(HttpMethod.POST, "login").permitAll()
+                                    .requestMatchers(HttpMethod.POST, "login/microsoft").permitAll()
                                     .requestMatchers(HttpMethod.POST, "reports/monthly").hasAuthority("ROLE_ADMIN")
                                     .requestMatchers(HttpMethod.GET, "cults/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_AUXILIAR")
                                     .requestMatchers(HttpMethod.POST, "cults/add").hasAnyAuthority("ROLE_ADMIN")
